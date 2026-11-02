@@ -14,10 +14,8 @@ The aim of SciReM is to connect **evidence → interpretation → decision → n
 
 ## What is available 
 
-1. **If you don't have an AI model account or dataset:** two scripted cycles through the real controller, graph publication, retrieval and dashboard generation. This validates wiring; responses and statistics are fixtures.
-2. **If you have an AI model account and compatible data:** the actual memory-enabled research loop using the same controller and R Runner as the development experiments. The current tool/data dictionary is specific to the processed category-classification pilot. Setting a different CSV path does not support arbitrary datasets.
-
-Python 3.10+ is required. The memory CLI has no mandatory third-party dependencies; the scripted research demo adds `jsonschema`. Explicit `--local` execution supports a workstation without SGE while retaining the university Login Node restriction. The original empirical launcher still requires Linux/SGE and bubblewrap; real statistical execution also needs R, `survival`, `sandwich`, `lmtest` and `fixest`. Hosted calls require an installed Codex CLI and the user's own authorized account/model access.
+1. **If you don't have an AI model account or dataset:** two scripted cycles through the real controller, graph publication, retrieval and dashboard generation.
+2. **If you have an AI model account and compatible data:** the actual memory-enabled research loop using the same controller and R Runner as the development experiments.
 
 ## Quick start
 
