@@ -11,6 +11,7 @@ import time
 from .memory import build_snapshot, retrieve, submit_candidate
 from .viewer import render_dashboard
 from . import workflow as flow
+from .execution import require_execution
 
 
 def dashboard(workspace, trace):
@@ -75,6 +76,11 @@ def main(argv=None):
                        help="Exact four-role Scheduler report.json to monitor read-only")
     serve.add_argument("--experiment-trajectory", type=Path,
                        help="Exact four-role trajectory directory paired with --experiment-report")
+    watch = commands.add_parser("watch", help="Observe an existing research run and record separate human reviews")
+    watch.add_argument("--report", type=Path, required=True, help="Exact research report.json")
+    watch.add_argument("--trajectory", type=Path, required=True, help="Exact trajectory_root named in that report")
+    watch.add_argument("--port", type=int, default=8765)
+    watch.add_argument("--duration", type=int, default=3600, help="Finite viewer lifetime in seconds")
     audit = commands.add_parser("audit-reference")
     audit.add_argument("--trial", required=True)
     audit.add_argument("--actual", type=Path, required=True)
@@ -84,9 +90,10 @@ def main(argv=None):
     demo = commands.add_parser("demo")
     demo.add_argument("--backend", choices=("lexical", "fastembed"), default="fastembed")
     args = parser.parse_args(argv)
-    if not os.environ.get("JOB_ID"):
-        if not args.local or socket.gethostname().startswith("research"):
-            parser.error("Run this command through the Job Scheduler; local mode is only for non-cluster workstations.")
+    try:
+        require_execution(local=args.local)
+    except RuntimeError as error:
+        parser.error(str(error))
     root = args.workspace.resolve()
     if args.command == "ingest":
         records = [json.loads(line) for line in args.file.read_text().splitlines() if line.strip()]
@@ -120,6 +127,25 @@ def main(argv=None):
     elif args.command == "agent-run":
         from .agent import run_codex_attempt
         output = run_codex_attempt(root, args.task, args.timeout, input_manifest=args.inputs)
+    elif args.command == "watch":
+        from .live import ArtifactController, open_artifact_server
+        from .live_viewer import render_live_dashboard
+        if not 1 <= args.port <= 65535 or args.duration <= 0:
+            parser.error("Use a valid TCP port and positive finite viewer duration")
+        os.umask(0o077)
+        server, session = open_artifact_server(root, args.report, args.trajectory, args.port, local=args.local)
+        print("Live observer ready. Private connection file:", session, flush=True)
+        print("The viewer follows recorded events; it does not launch agents. Use an approved tunnel on a cluster.", flush=True)
+        server.timeout = .5
+        try:
+            deadline = time.monotonic() + args.duration
+            while time.monotonic() < deadline:
+                server.handle_request()
+        finally:
+            server.server_close()
+            snapshot = root / "dashboard-snapshot.html"
+            snapshot.write_text(render_live_dashboard("", ArtifactController(args.report, args.trajectory).state(), offline=True), encoding="utf-8")
+        output = {"status": "observer-ended", "snapshot": str(snapshot), "connection_file": str(session)}
     elif args.command == "serve":
         from .live import LiveController, create_server
         if not os.environ.get("JOB_ID"):
@@ -151,11 +177,11 @@ def main(argv=None):
                            "created_at": flow.now(), "duration_seconds": args.duration,
                            "attempt_timeout_seconds": args.timeout}, stream, ensure_ascii=False, indent=2)
             launcher = session.parent / "open-dashboard.html"
-            document = ('<!doctype html><html lang="ko"><meta charset="utf-8"><title>Research Dashboard</title>'
+            document = ('<!doctype html><html lang="en"><meta charset="utf-8"><title>Research Dashboard</title>'
                         '<body style="font:18px system-ui;padding:40px"><h1>Research Dashboard</h1>'
-                        '<p>Mac의 SSH tunnel을 연결한 상태에서 Dashboard를 여세요.</p><p><a href="' +
+                        '<p>Open the dashboard after connecting your approved SSH tunnel.</p><p><a href="' +
                         html.escape(f"http://127.0.0.1:{args.port}/#token={server.token}", quote=True) +
-                        '">Dashboard 열기</a></p><p>개인 접속 파일입니다. 다른 사람과 공유하지 마세요.</p></body></html>')
+                        '">Open dashboard</a></p><p>Private connection file. Do not share it.</p></body></html>')
             launcher_fd = os.open(launcher, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
             with os.fdopen(launcher_fd, "w", encoding="utf-8") as stream:
                 stream.write(document)
@@ -185,12 +211,12 @@ def main(argv=None):
                   "source": str(args.actual.resolve()), "reference_source": str(args.expected.resolve()),
                   "relative_tolerance": args.rtol, "absolute_tolerance": args.atol})
     else:
-        fixture = Path(__file__).resolve().parents[2] / "examples" / "synthetic" / "memories.jsonl"
+        fixture = Path(__file__).with_name("assets") / "synthetic-memories.json"
         # shortcut: synthetic demo starts in a fresh workspace; real data is ingested explicitly.
         if (root / "CURRENT").exists() or (root / "candidates").exists():
             raise ValueError("Use a fresh workspace for the synthetic demo")
-        for line in fixture.read_text().splitlines():
-            submit_candidate(root, json.loads(line))
+        for record in json.loads(fixture.read_text()):
+            submit_candidate(root, record)
         manifest = build_snapshot(root, args.backend)
         task = flow.create_task(root, "FD", "firm differentiation", "agent-b")
         trace = retrieve(root, task["question"], "FD", top_k=3)

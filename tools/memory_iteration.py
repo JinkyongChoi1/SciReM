@@ -481,12 +481,13 @@ def run_round(args, trajectory, started):
                 session = original / ("resume-" + job_id)
                 session.mkdir(mode=0o700)
                 index = int(original.name.split("-")[1])
-                report["active_attempt"] = {"attempt": index, "status": "resuming_post_result"}
+                report["active_attempt"] = {"attempt": index, "status": "resuming_post_result",
+                                            "artifact_directory": str(session.relative_to(trajectory))}
                 checkpoint(runroot, report, started)
                 begin = time.monotonic()
                 record, plan, decision = RESUME_RESULT(session, original, memory, model,
                     data_identity=data_identity, research_question=QUESTION)
-                record.update(round=args.round, job_id=job_id, seconds=round(time.monotonic()-begin, 3),
+                record.update(round=args.round, job_id=job_id, artifact_directory=str(session.relative_to(trajectory)), seconds=round(time.monotonic()-begin, 3),
                               elapsed_end=round(time.monotonic()-started, 3))
                 write(session / "attempt.json", record)
                 report["resumptions"] = [record]
@@ -516,7 +517,9 @@ def run_round(args, trajectory, started):
             else:
                 session = trajectory / f"attempt-{index:04d}"
                 session.mkdir(mode=0o700)
-            report["active_attempt"] = {"attempt": index, "status": "started"}
+            report["active_attempt"] = {"attempt": index, "status": "started",
+                                        "execution_attempt": 1 if repeated_one_shot else index,
+                                        "artifact_directory": str(session.relative_to(trajectory))}
             checkpoint(runroot, report, started)
             begin = time.monotonic()
             call_kwargs = {"query": next_inquiry if benchmark else (next_inquiry if arm == "memory" else QUESTION),
@@ -525,8 +528,12 @@ def run_round(args, trajectory, started):
                 "memory_format": MEMORY_FORMAT}
             if TOPOLOGY == "orchestrator-hypothesis-empiricist-runner":
                 from agent_r_diagnostic import run_agent_r
-                call_kwargs["diagnostic_runner"] = lambda folder, code: run_agent_r(folder, code, data=DATA,
-                    cpu_seconds=max(1, int(started + args.budget_seconds - INFERENCE_DEADLINE_RESERVE_SECONDS - time.monotonic())))
+                def diagnostic_runner(folder, code):
+                    report["active_stage"] = "diagnostic"
+                    checkpoint(runroot, report, started)
+                    return run_agent_r(folder, code, data=DATA,
+                        cpu_seconds=max(1, int(started + args.budget_seconds - INFERENCE_DEADLINE_RESERVE_SECONDS - time.monotonic())))
+                call_kwargs["diagnostic_runner"] = diagnostic_runner
             if benchmark:
                 call_kwargs["condition"] = condition
                 call_kwargs["research_question"] = QUESTION
@@ -538,7 +545,7 @@ def run_round(args, trajectory, started):
                 call = next((item for item in reversed(report["model_calls"])
                              if item.get("attempt") == index and item.get("failure_type") == "ContextCapacityError"), {})
                 record["context"] = context_capacity_metadata(call)
-            record.update(round=args.round, job_id=job_id, seconds=round(time.monotonic()-begin, 3),
+            record.update(round=args.round, job_id=job_id, artifact_directory=str(session.relative_to(trajectory)), seconds=round(time.monotonic()-begin, 3),
                           elapsed_end=round(time.monotonic()-started, 3))
             write(session / "attempt.json", record)
             report["attempts"].append(record)

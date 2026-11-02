@@ -1,9 +1,8 @@
-"""Scheduler-only, single-writer publication for two roles on one typed graph."""
+"""Single-writer graph publication in an allocation or explicit local workstation mode."""
 from copy import deepcopy
 from decimal import Decimal
 import hashlib
 import json
-import os
 from pathlib import Path
 import re
 import uuid
@@ -89,9 +88,9 @@ class TwoRoleMemory:
               "AnalysisModel": "analysis-agent", "ResultAssessment": "analysis-agent",
               "Decision": "hypothesis-agent"}
 
-    def __init__(self, root, *, arm="memory", embedding_backend="lexical", model_name=None, retrieval_strategy="ppr"):
-        if not os.environ.get("JOB_ID"):
-            raise RuntimeError("Graph computation requires a reviewed Scheduler allocation")
+    def __init__(self, root, *, arm="memory", embedding_backend="lexical", model_name=None, retrieval_strategy="ppr", local=False):
+        from .execution import require_execution
+        require_execution(local=local)
         if arm not in ("memory", "no-memory"):
             raise ValueError("Unknown experimental arm")
         if retrieval_strategy not in ("ppr", "dense", "similarity"):

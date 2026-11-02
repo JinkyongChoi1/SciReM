@@ -65,7 +65,7 @@ def create_task(workspace, track_id, question, agent_id="codex"):
     Path(workspace).mkdir(parents=True, exist_ok=True, mode=0o700)
     task = {"id": "t-" + uuid.uuid4().hex, "track_id": track_id, "question": question,
             "agent_id": agent_id, "status": "awaiting_retrieval", "created_at": now(),
-            "next_action": "Job Scheduler의 검토된 allocation에서 현재 질문의 memory를 검색하세요.",
+            "next_action": "Retrieve memory for the current question inside the reviewed scheduler allocation.",
             "retrievals": [], "attempts": [], "decisions": []}
     write(Path(workspace) / "tasks" / (task["id"] + ".json"), task)
     return task
@@ -114,7 +114,7 @@ def attach_retrieval(workspace, task_id, request_id):
         if request_id not in task["retrievals"]:
             task["retrievals"].append(request_id)
         task["status"] = "ready"
-        task["next_action"] = "Evidence packet을 확인하고 검토된 범위의 analysis plan을 준비하세요."
+        task["next_action"] = "Inspect the evidence packet and prepare an analysis plan within the reviewed scope."
     return read(Path(workspace) / "tasks" / (task_id + ".json"))
 
 
@@ -130,7 +130,7 @@ def record_decision(workspace, task_id, user_text, actor="user"):
         if task["status"] == "awaiting_decision":
             task["status"] = "ready"
             task["decision"] = None
-            task["next_action"] = "기록된 결정을 확인한 뒤 허용된 범위에서 재개하세요."
+            task["next_action"] = "Review the recorded decision and resume within the approved scope."
     return decision
 
 
@@ -158,7 +158,7 @@ def record_attempt(workspace, task_id, record, used_memory_ids, adaptation, outc
         attempt["candidate_sha256"] = hashlib.sha256(candidate.read_bytes()).hexdigest()
         write(Path(workspace) / "attempts" / (attempt["id"] + ".json"), attempt)
         task["attempts"].append(attempt["id"])
-        task["next_action"] = "결과를 검토하고 index job으로 새 memory candidate를 게시하세요."
+        task["next_action"] = "Review the result and publish new memory candidates through the index job."
     return attempt
 
 
@@ -180,7 +180,7 @@ def complete_task(workspace, task_id):
                 raise ValueError("Attempt and retrieval receipt do not match the task")
         task["status"] = "completed"
         task["completed_at"] = now()
-        task["next_action"] = "다음 연구 질문은 새 task로 시작하세요."
+        task["next_action"] = "Start a new task for the next research question."
     return read(Path(workspace) / "tasks" / (task_id + ".json"))
 
 

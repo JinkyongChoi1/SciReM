@@ -8,13 +8,13 @@
     },
     {
       "path": "README.md",
-      "sha256": "3a6d9e743ec7d3df4393185e8887683616b870c04db209383b682f01fe0c3849",
-      "bytes": 4488
+      "sha256": "3b1c72aee964a59f7496c2faed1915a617051223729031f6f4a8f7491420c3cf",
+      "bytes": 8181
     },
     {
       "path": "docs/CLAIMS.md",
-      "sha256": "a8361b2ceb3fe02f662f1e721cb8040ff3e594fd95ee2fc481bbb4261d0a70c1",
-      "bytes": 3107
+      "sha256": "f263f10258bb20f6f10a2cf78b2047ed349a5140901e1cc5667730d31153d2fc",
+      "bytes": 3243
     },
     {
       "path": "docs/data-and-runtime.md",
@@ -38,8 +38,8 @@
     },
     {
       "path": "docs/portability-changes.md",
-      "sha256": "f08c4fd7d67149fb9f5f72327e93aef1d72159dc732bfc7f1b14ecaf028d95dd",
-      "bytes": 2972
+      "sha256": "d074c78c91af90694e4074590321bef0973cf098e406bc2b57c993d2c2d12234",
+      "bytes": 4225
     },
     {
       "path": "docs/preliminary-evidence.md",
@@ -58,13 +58,13 @@
     },
     {
       "path": "docs/release-status.md",
-      "sha256": "18dc9641a304eb81b5eba830b6b265e07eb1998da7696d0b71cffdd3efa5aed7",
-      "bytes": 3144
+      "sha256": "25a0d6e30e7880a6bc20329f1e2a7fe5dbaba8dc3543a9e2b82080efeb5c6b0f",
+      "bytes": 6051
     },
     {
       "path": "docs/technical-appendix.md",
-      "sha256": "6b7822b128712bb6a5837be747cf88c7d91e3694a17a2518eea4d7fc309ce27a",
-      "bytes": 7768
+      "sha256": "f6c3c0c096b8612018cded5d8237a3a2f4b915ee1ef3b6e6666e6b700f180cf7",
+      "bytes": 9999
     },
     {
       "path": "examples/synthetic/memories.jsonl",
@@ -73,8 +73,8 @@
     },
     {
       "path": "pyproject.toml",
-      "sha256": "a098df30f35c5758cd7a7601f8eb97edefde4a48c9d31c0b2fe540348de64146",
-      "bytes": 615
+      "sha256": "d4cc51b871935ae56eab44f4e8266f0a343f022512ac27ea2c7fde51865e0ab4",
+      "bytes": 612
     },
     {
       "path": "src/research_memory/__init__.py",
@@ -83,13 +83,13 @@
     },
     {
       "path": "src/research_memory/__main__.py",
-      "sha256": "6e80190e04684a674d2f0125836dd054025d5fdd13b74e029926e1bc5b60a966",
-      "bytes": 13286
+      "sha256": "a1cc207b32e1b2ab80550aa7b4ded668e3eff10b2de03f6dd6d1d51ed9f86b10",
+      "bytes": 14835
     },
     {
       "path": "src/research_memory/agent.py",
-      "sha256": "d7ae3d9b52ef798afd24120f70c13af18cc6e33ab467a8e9b9bf8ef347b40beb",
-      "bytes": 12967
+      "sha256": "4274052cfdeb76968231785d46b4e1ad6f0030d46c7e57c8cd0c2eb1785a2666",
+      "bytes": 12832
     },
     {
       "path": "src/research_memory/assets/NotoSansKR.ttf",
@@ -107,9 +107,19 @@
       "bytes": 537
     },
     {
+      "path": "src/research_memory/assets/synthetic-memories.json",
+      "sha256": "b4d1ccaa063f357a331cdd3f7741703ef45ffc81e6d156b778b8b077c7662be6",
+      "bytes": 1413
+    },
+    {
       "path": "src/research_memory/evidence.py",
       "sha256": "d1e99cee82534ee02371493ca071bb222d59e35220051ae267dc6b71bd3dcdf9",
       "bytes": 23457
+    },
+    {
+      "path": "src/research_memory/execution.py",
+      "sha256": "b7087e1ace2f66937f4a88c8b788a82c1b6d73995a1e6fdacd3a937a008fdca0",
+      "bytes": 457
     },
     {
       "path": "src/research_memory/gpu_device.py",
@@ -123,13 +133,13 @@
     },
     {
       "path": "src/research_memory/live.py",
-      "sha256": "6c14831c359fffb8fbf3a178524f8d22ef4bc4659f13ae8ab67ccfe6253654e3",
-      "bytes": 24282
+      "sha256": "a9555e133732c3af413115a6bffe6f094041036eef8e8392bc7dab8a27fd7325",
+      "bytes": 36429
     },
     {
       "path": "src/research_memory/live_viewer.py",
-      "sha256": "0f63a61da0d236f60880325ff7ac382667f58a1075201a0f549411364e0f59e0",
-      "bytes": 51737
+      "sha256": "d37ec28a952484aa9caf6fcfe32e53a2bb460615df2cee8778c8cd30dc97e38c",
+      "bytes": 44057
     },
     {
       "path": "src/research_memory/memory.py",
@@ -158,18 +168,18 @@
     },
     {
       "path": "src/research_memory/two_role.py",
-      "sha256": "7da7d5fddec7c1641eae3871574b076403d5e0331b581aff387b7b291731bf40",
-      "bytes": 37647
+      "sha256": "ffbd2609e5700269547273ada828130a36acc289f91cb09b73027f0458fe9f06",
+      "bytes": 37613
     },
     {
       "path": "src/research_memory/viewer.py",
-      "sha256": "1023c2f13dfa506decf57f91f73e84d2c955733b1b6be1c506431d9b363cc5df",
-      "bytes": 13258
+      "sha256": "61f224520efb37d889b927d6656b793c9662a569d5938018fbad89ca3e84666f",
+      "bytes": 13211
     },
     {
       "path": "src/research_memory/workflow.py",
-      "sha256": "8a7ef53f38f755e2c5eb6c308f650a4f23015c652a5e137ecf9fa057ba69cae3",
-      "bytes": 14217
+      "sha256": "03845e6ccfb4aa5e8270c28302775cbccbf30cbc00144abd787e63ae3ad8cbdd",
+      "bytes": 14194
     },
     {
       "path": "tests/newtest_diagnostic_handoff.py",
@@ -180,6 +190,11 @@
       "path": "tests/test_adaptive_shared_context.py",
       "sha256": "6dff768b8896bb336f01cd424c8472d6e4250a6b8aea52abde601b9068681285",
       "bytes": 13204
+    },
+    {
+      "path": "tests/test_artifact_live.py",
+      "sha256": "defab9ae499f0f5dbb6275b2f31f6e2a19f37f1c4cf7349d5bc893fbdfaea279",
+      "bytes": 8290
     },
     {
       "path": "tests/test_codex_cli_diagnostics.py",
@@ -248,8 +263,8 @@
     },
     {
       "path": "tests/test_live_viewer.py",
-      "sha256": "5189b695dd96cbf22603e84e601a7b59932a7d8f298f818254cbb6166e1591d7",
-      "bytes": 3727
+      "sha256": "b028ebfa3251c7c4532b5321cd6ea8efc2d46f07bf50b3bdd363a11ff0d6324d",
+      "bytes": 4908
     },
     {
       "path": "tests/test_lossless_short_rows.py",
@@ -262,6 +277,11 @@
       "bytes": 5802
     },
     {
+      "path": "tests/test_memory_inventory.py",
+      "sha256": "26200a92a06a412e57be3827adbe4450cebb688d76b6320384d85b3ba117674a",
+      "bytes": 5375
+    },
+    {
       "path": "tests/test_memory_iteration.py",
       "sha256": "c7c39987648c2e7ccaf305da3aa29cbf42511d5baa26f62cd12290bbcace4c50",
       "bytes": 15961
@@ -272,9 +292,19 @@
       "bytes": 6989
     },
     {
+      "path": "tests/test_memory_review.py",
+      "sha256": "a296af27232128c82986371977cf1eff9395a3a4fc289f874667a4814cd183ca",
+      "bytes": 5374
+    },
+    {
       "path": "tests/test_orchestrator_review.py",
       "sha256": "de78f93c7fe1f411c3120f911b9a824f62a5c79fa005a25e2cf7ee51312e1da0",
       "bytes": 10664
+    },
+    {
+      "path": "tests/test_portability.py",
+      "sha256": "dcf1c0e0a077354f8816ca4d5b30efaf5b2d1f32ef47029595ccacdbfa0bda8d",
+      "bytes": 2943
     },
     {
       "path": "tests/test_reference.py",
@@ -403,8 +433,8 @@
     },
     {
       "path": "tools/memory_iteration.py",
-      "sha256": "205c00599cbfa41f7d2718ae1d421b53b3bc53a611183bff1e830b6e48b1ec49",
-      "bytes": 36313
+      "sha256": "e434d7b9b9d86859939755efef492cb095cbeb563c92e4ca7889e29abb651d2f",
+      "bytes": 36923
     },
     {
       "path": "tools/orchestrator_review.py",
@@ -423,8 +453,8 @@
     },
     {
       "path": "tools/smoke_scirem.py",
-      "sha256": "a21db086cd365006be568ac8f49c284806b33ff8e746f549194120dd61035b48",
-      "bytes": 5164
+      "sha256": "e5cc7014380853b74f0c4dcc783a15a853356b2843e57465c171b99414570ab8",
+      "bytes": 8308
     },
     {
       "path": "tools/tsv_memory_iteration.py",

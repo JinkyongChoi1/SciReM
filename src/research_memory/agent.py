@@ -75,16 +75,16 @@ def _run_cli(command, timeout_seconds, progress):
                               if key in ("input_tokens", "cached_input_tokens", "output_tokens")
                               and type(count) is int and count >= 0})
             elif kind == "turn.started":
-                progress("reasoning", "Agent가 질문과 evidence를 검토하고 있습니다.")
+                progress("reasoning", "The agent is reviewing the question and evidence.")
             elif kind in ("item.started", "item.completed"):
                 item = event.get("item")
                 item_type = item.get("type") if isinstance(item, dict) else None
                 if item_type == "command_execution":
-                    progress("analysis", "승인된 worker 범위에서 작업을 실행하고 있습니다.")
+                    progress("analysis", "Executing work within the approved worker scope.")
                 elif item_type in ("mcp_tool_call", "web_search"):
-                    progress("evidence", "Agent가 source와 evidence를 확인하고 있습니다.")
+                    progress("evidence", "The agent is checking sources and evidence.")
                 elif item_type in ("reasoning", "agent_message"):
-                    progress("reasoning", "Agent가 evidence를 해석하고 결과를 작성하고 있습니다.")
+                    progress("reasoning", "The agent is interpreting evidence and preparing its response.")
         code = process.wait(timeout=max(.01, deadline - time.monotonic()))
         if code:
             raise RuntimeError(f"Codex CLI exited with status {code}; check account/network configuration.")
@@ -122,7 +122,7 @@ def run_codex_attempt(workspace, task_id, timeout_seconds=900, progress=None, in
     try:
         return _attempt(root, task_id, timeout_seconds, emit, input_manifest)
     except Exception:
-        emit("failed", "Agent attempt가 중단되었습니다. 인증·입력·실행 제한을 확인한 뒤 재개하세요.")
+        emit("failed", "The agent attempt stopped. Check authentication, inputs and execution limits before resuming.")
         raise
 
 
@@ -144,7 +144,7 @@ def _attempt(root, task_id, timeout_seconds, progress, input_manifest):
         topic_state = stream.read(16001)
     if len(topic_state) > 16000:
         raise ValueError("Keep topic STATE.md concise before running an attempt")
-    progress("retrieval", "현재 질문에 맞는 shared memory를 검색하고 있습니다.")
+    progress("retrieval", "Searching shared memory for the current question.")
     trace = retrieve(root, task["question"], task["track_id"])
     folder = flow.save_retrieval(root, trace)
     flow.attach_retrieval(root, task_id, trace["request_id"])
@@ -154,7 +154,7 @@ def _attempt(root, task_id, timeout_seconds, progress, input_manifest):
     staged = None
     if input_manifest:
         from .inputs import stage_inputs
-        progress("inputs", "검토된 입력 파일을 원본 보존 방식으로 준비하고 있습니다.")
+        progress("inputs", "Preparing reviewed inputs while preserving the original files.")
         staged = stage_inputs(input_manifest, task["track_id"], attempt_dir)
     prompt = (
         "You are a research agent. Communicate in Korean, retaining professional terminology in English.\n"
@@ -180,9 +180,9 @@ def _attempt(root, task_id, timeout_seconds, progress, input_manifest):
                "--skip-git-repo-check", "--json", "--output-schema", str(attempt_dir / "schema.json"),
                "--output-last-message", str(output_file), prompt]
     # Account auth stays with the installed CLI; never read/copy its token file.
-    progress("starting", "Codex account로 bounded attempt를 시작합니다.")
+    progress("starting", "Starting an attempt using the authorized Codex account.")
     usage = _run_cli(command, timeout_seconds, progress)
-    progress("recording", "결과를 검증하고 source-linked memory를 기록하고 있습니다.")
+    progress("recording", "Validating results and recording source-linked memory.")
     if output_file.stat().st_size > 1_000_000:
         raise ValueError("Agent structured result exceeds the bounded output contract")
     result = flow.read(output_file)
@@ -214,7 +214,7 @@ def _attempt(root, task_id, timeout_seconds, progress, input_manifest):
         with flow.task_record(root, task_id) as task:
             task["status"] = "awaiting_decision"
             task["decision"] = result["decision_question"]
-            task["next_action"] = "결정을 기록한 뒤 검토된 범위에서 새 attempt를 시작하세요."
+            task["next_action"] = "Record your decision, then start a new attempt within the reviewed scope."
     progress("awaiting_decision" if result["needs_user_decision"] else "result_ready",
-             "사용자의 결정이 필요합니다." if result["needs_user_decision"] else "결과와 memory candidate를 기록했습니다.")
+             "Your decision is needed." if result["needs_user_decision"] else "Results and memory candidates were recorded.")
     return {"attempt": attempt, "request_id": trace["request_id"], "needs_user_decision": result["needs_user_decision"], "result": result}

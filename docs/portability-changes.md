@@ -46,3 +46,21 @@ responses remain scripted. It adds no new scientific model or production loop.
 The independent TSV auditor was updated with the same relation contract and
 separate source-based semantic recomputation. Existing legacy-archive checks
 remain; metadata is not accepted solely because an edge name is allowed.
+
+Live-dashboard release repair: an `ArtifactController` and `watch` command
+observe explicit report/trajectory paths without the older generic controller's
+private registry or historical workspace assumptions. The actual research loop is
+unchanged. The smoke writes incremental execution checkpoints and optionally
+serves them after the first authenticated viewer connects. The live viewer
+distinguishes recorded activity, stale state, disconnection and offline snapshots;
+it preserves model specification and retrieval-delivery evidence. This is an
+observer/portability change, not a new research condition or performance result.
+The common research runner records the exact relative artifact directory for
+normal, independent-episode and resumed attempts, and checkpoints diagnostic
+Runner entry. These telemetry fields prevent the viewer from selecting an old
+attempt or attributing a running diagnostic to the preceding model call.
+
+The memory canvas reads the selected trajectory's complete, verified published
+snapshot and overlays its recorded retrieval. Human-review submissions write only
+separate append-only annotations, marked not applied. The observer remains
+unable to launch research, modify the report or publish a new scientific graph.
