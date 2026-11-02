@@ -1,5 +1,16 @@
 # Release status
 
+Visual-fidelity follow-up: the live canvas now uses the bundled Noto Sans font,
+larger node labels, score pills sourced from recorded PageRank, a compact RQ
+header and legend below the graph. Five separate Firefox controller/graph QA
+passes verified font availability, label bounds, source-backed scores and the
+existing memory/review contracts; an additional 1536px browser pass and mobile
+checks were run. These checks use synthetic records and scripted agent replies.
+The supplied concept remains an illustration: graph content, node positions,
+and the final font rendering can vary with the run, viewport and environment.
+Standalone offline snapshots fall back to an available system font if the
+bundled font asset is not available alongside the viewer service.
+
 Follow-up visual QA: the selected concept and the actual Firefox screenshot were
 compared, and the canvas palette, query chip and review dock were refined. A
 Scheduler-hosted browser test verified the same published graph inventory,
