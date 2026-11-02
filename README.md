@@ -6,7 +6,7 @@ The aim of SciReM is to connect **evidence → interpretation → decision → n
 
 **Start here:** [paper–code alignment](docs/CLAIMS.md), [technical appendix](docs/technical-appendix.md), [preliminary evidence](docs/preliminary-evidence.md), [evaluation plan](docs/evaluation.md).
 
-**Live dashboard:** [watch an active research run or try the live synthetic smoke](#watch-research-live). The dashboard follows recorded execution and memory retrieval, with an offline view after completion.
+**Live dashboard:** [watch an active research run](#watch-a-research-run) or [try the demo](#quick-start). The dashboard follows recorded execution and memory retrieval, with an offline view after completion.
 
 ## Dashboard preview
 
@@ -19,9 +19,9 @@ The aim of SciReM is to connect **evidence → interpretation → decision → n
 
 Python 3.10+ is required. The memory CLI has no mandatory third-party dependencies; the scripted research demo adds `jsonschema`. Explicit `--local` execution supports a workstation without SGE while retaining the university Login Node restriction. The original empirical launcher still requires Linux/SGE and bubblewrap; real statistical execution also needs R, `survival`, `sandwich`, `lmtest` and `fixest`. Hosted calls require an installed Codex CLI and the user's own authorized account/model access.
 
-## Local quick start — no scheduler or model account
+## Quick start
 
-From a checkout on a non-cluster workstation:
+On a non-cluster computer, run the demo:
 
 ```bash
 python -m pip install '.[experiment]'
@@ -29,80 +29,28 @@ python tools/smoke_scirem.py --local --serve --duration 300 \
   --output ./workspaces/local-demo-01
 ```
 
-Open the private `browser_url` from the connection JSON whose path is printed by
-the command. The demo waits for that authenticated browser connection before
-running its two scripted cycles. It uses the actual memory graph, retrieval and
-controller with fixture model/statistical responses. No LLM account is needed.
-Use a new output directory each time. The server closes after the selected
-duration and leaves an offline snapshot.
+Open the `browser_url` in the connection file printed by the command. The demo starts when you connect and uses synthetic data and scripted responses. Choose a new output directory for each run.
 
-For only the installed memory engine and static retrieval export:
+On a cluster, run the demo inside a scheduler allocation and omit `--local`. Do not run code on a Login Node.
 
-```bash
-python -m research_memory --local --workspace ./memory-demo demo --backend lexical
-```
+## Watch a research run
 
-`--local` is refused on recognized university cluster hosts unless a Scheduler
-allocation is present. The original real-model pilot command below remains an
-SGE workflow. Linux portability is tested separately from Mac/Windows support;
-those platforms are not yet verified.
-
-## Install and run the scripted smoke
-
-From the repository root, inside a compute allocation:
+Inside a compute allocation, provide the run's report and its exact `trajectory_root`:
 
 ```bash
-python -m venv .venv
-. .venv/bin/activate
-python -m pip install '.[experiment]'
-export PYTHONPATH="$PWD/src:$PWD/tools:$PWD/tests"
-python tools/smoke_scirem.py --output "$PWD/workspaces/smoke-01"
-```
-
-Choose a new output directory on every run. `dashboard-snapshot.html` preserves the completed workflow for offline inspection; `dashboard.html` preserves its retrieval view. For live progress, use the commands below. Inspect `memory.tsv`, `trace.json`, `report.json`, and the per-attempt source receipts. The trace distinguishes query anchors, ranking and final context inclusion. `report.json` explicitly identifies `scripted_fixture` and `fixed_test_receipts`.
-
-This exercises `execute_four_role_attempt` twice with the actual shared-memory implementation. It does **not** execute an LLM or real R model and cannot reproduce the empirical preliminary-results table.
-
-## Watch research live
-
-The English-language dashboard presents SciReM as a research memory system. It shows the research question and recorded status above the selected trajectory's stored memory network, including records outside the current retrieval. Node colors distinguish research questions, hypotheses, analysis models and results; size and intensity encode available, recorded PageRank relevance. Unscored records remain visible without an invented score. Agent decisions appear as source-linked edges, with the original Decision records retained in the ranking table and evidence details. Query anchors, relevance and delivered context are separate indicators. Completed runs remain inspectable; stale reports and disconnected sessions are explicit.
-
-To observe an existing running or completed pilot, run inside a compute allocation with access to its files:
-
-```bash
-python -m research_memory --workspace /absolute/path/to/private-viewer-session watch \
-  --report /absolute/path/to/run/report.json \
-  --trajectory /absolute/path/to/trajectory \
+python -m research_memory --workspace /path/to/viewer watch \
+  --report /path/to/run/report.json \
+  --trajectory /path/to/trajectory \
   --port 8765 --duration 3600
 ```
 
-Use the exact `trajectory_root` recorded in the report. The observer cannot start or modify research. Its human-review buttons save separate annotations for a selected memory; they do not apply a change or resume an agent. Closing the viewer does not stop the research job. Match the viewer lifetime to your scheduler allocation. On a non-cluster workstation, add the global `--local` flag before `watch`.
+Open the private `browser_url` in the printed connection file. To connect from another computer, forward the port to the compute node with SSH. For a non-cluster computer, add `--local` before `--workspace`.
 
-The command writes a private `sessions/watch-*.json` containing the compute host, port and `browser_url`. Open that URL on the same machine, or use your institution's SSH tunnel to the **compute node** hosting the viewer, forwarding the same local and remote port. Keep the URL's token private. At viewer exit, `dashboard-snapshot.html` preserves the recorded state for offline viewing.
+The dashboard displays memory and activity. Human reviews are saved separately and do not automatically change or resume the research.
 
-To try live execution without a model account or empirical data:
+## Run the pilot
 
-```bash
-python tools/smoke_scirem.py --serve --port 8765 --duration 300 \
-  --output "$PWD/workspaces/live-smoke-01"
-```
-
-The smoke waits for the first authenticated browser connection, then executes two actual controller cycles with labeled scripted model responses and synthetic statistical receipts. Fast fixture stages can finish between one-second browser polls; no artificial delays simulate reasoning. Add `--real-statistics` with `SCIREM_R_HOME` and `SCIREM_R_LIBRARY` configured to execute the actual R Runner on generated data. This validates execution, not autonomous research performance.
-
-Tests, from the same allocated environment:
-
-```bash
-python -m unittest discover -s tests -v
-python -m unittest newtest_diagnostic_handoff -v
-```
-
-The second command covers a retained regression file whose historical name falls outside normal unittest discovery.
-
-## Run the actual pilot loop
-
-First obtain data with the schema and provenance described in [data requirements](docs/data-and-runtime.md). Confirm permission to process it through the chosen model service. Authenticate the CLI using its normal procedure in your own environment; never put authentication files in this repository.
-
-Set site-specific paths before starting Python, inside the reviewed allocation:
+The pilot requires compatible data and a Linux/SGE allocation. See [data and runtime requirements](docs/data-and-runtime.md), then configure:
 
 ```bash
 export PYTHONPATH="$PWD/src:$PWD/tools:$PWD/tests"
@@ -113,10 +61,20 @@ export SCIREM_OUTPUT=/absolute/path/to/new-run-output
 export SCIREM_ROLE_LAYOUT=unified
 export SCIREM_REVIEW=off
 export RESEARCH_AGENT_ALLOW_CHILD_CLEANUP=1
+
 python tools/run_scirem.py \
   --round 1 --budget-seconds 300 \
   --backend codex --codex-model YOUR_ACCESSIBLE_MODEL \
   --embedding-backend lexical --adaptive-shared-context \
   --trajectory-root "$SCIREM_OUTPUT/trajectories/run-01"
+```
+
+## Tests
+
+Inside a compute allocation:
+
+```bash
+python -m unittest discover -s tests -v
+python -m unittest newtest_diagnostic_handoff -v
 ```
 
