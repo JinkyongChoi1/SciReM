@@ -1,17 +1,17 @@
 # SciReM — Scientific Research Memory
 
-An experimental memory layer for cumulative, inspectable human–AI social-science research. This is a minimal export of the actual research-loop code used during development, not a replacement demonstration framework.
+SciReM is a memory system for cumulative, inspectable human–AI social-science research. 
 
-The intended contribution is to connect **evidence → interpretation → decision → next inquiry**, so earlier judgments can be inspected and reconsidered. The prototype implements a source-linked scientific graph, query-anchored retrieval with personalized PageRank, compact TSV packets, statistical execution receipts, and a research controller. Improved scientific judgment, reduced repetition, and better human review remain research questions.
+The aim of SciReM is to connect **evidence → interpretation → decision → next inquiry**, so earlier judgments can be inspected and reconsidered. The prototype implements a source-linked scientific graph, query-anchored retrieval with personalized PageRank, compact TSV packets, statistical execution receipts, and a research controller. Improved scientific judgment, reduced repetition, and better human review remain research questions.
 
 **Start here:** [paper–code alignment](docs/CLAIMS.md), [technical appendix](docs/technical-appendix.md), [preliminary evidence](docs/preliminary-evidence.md), [evaluation plan](docs/evaluation.md).
 
-## What you can reproduce
+## What is available 
 
-1. **No model account or dataset:** two scripted cycles through the real controller, graph publication, retrieval and dashboard generation. This validates wiring; responses and statistics are fixtures.
-2. **With an authorized model account and compatible data:** the actual memory-enabled research loop using the same controller and R Runner as the development experiments. The current tool/data dictionary is specific to the processed category-classification pilot. Setting a different CSV path does not support arbitrary datasets.
+1. **If you don't have an AI model account or dataset:** two scripted cycles through the real controller, graph publication, retrieval and dashboard generation. This validates wiring; responses and statistics are fixtures.
+2. **If you have an AI model account and compatible data:** the actual memory-enabled research loop using the same controller and R Runner as the development experiments. The current tool/data dictionary is specific to the processed category-classification pilot. Setting a different CSV path does not support arbitrary datasets.
 
-The release retains Linux/SGE allocation checks and bubblewrap isolation. Other platforms/schedulers have not been validated. On a university cluster, all installation, tests, graph computation and analysis below must run **inside an allocated compute job**, never on a Login Node. Do not manufacture `JOB_ID` to bypass this check. Python3.10+ and `jsonschema` are needed; real statistical execution additionally needs R, `survival`, `sandwich`, `lmtest`, `fixest`, and bubblewrap. Hosted calls require an installed Codex CLI and the user's own authorized account/model access. No credentials or model weights are included.
+This version retains Linux/SGE allocation checks and bubblewrap isolation. The functionality had been checked under a university cluster, where all execution run inside an allocated compute job. Python3.10+ and `jsonschema` are needed; real statistical execution additionally needs R, `survival`, `sandwich`, `lmtest`, `fixest`, and bubblewrap. Hosted calls require an installed Codex CLI and the user's own authorized account/model access. 
 
 ## Install and run the scripted smoke
 
