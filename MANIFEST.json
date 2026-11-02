@@ -8,8 +8,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "c0b726d8f777e14e91cfb9f73800df30ad34454307eeb2251f8a0809aeef5b0e",
-      "bytes": 6994
+      "sha256": "3a6d9e743ec7d3df4393185e8887683616b870c04db209383b682f01fe0c3849",
+      "bytes": 4488
     },
     {
       "path": "docs/CLAIMS.md",
@@ -25,6 +25,11 @@
       "path": "docs/evaluation.md",
       "sha256": "fb3761ee5e11368eb58b4ab35d2f30405fb83fcb402ef0825b788eed744cc82e",
       "bytes": 2725
+    },
+    {
+      "path": "docs/images/memory-canvas-concept.png",
+      "sha256": "0e987a2be57df5ab2bf456b1484c47069c3de80d06f03e04e3c4868e565f3693",
+      "bytes": 1339630
     },
     {
       "path": "docs/judgment-edges.md",

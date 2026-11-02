@@ -6,6 +6,12 @@ The aim of SciReM is to connect **evidence → interpretation → decision → n
 
 **Start here:** [paper–code alignment](docs/CLAIMS.md), [technical appendix](docs/technical-appendix.md), [preliminary evidence](docs/preliminary-evidence.md), [evaluation plan](docs/evaluation.md).
 
+## Dashboard design preview
+
+![SciReM memory canvas with query anchors, connected memories, AI activity and human decisions](docs/images/memory-canvas-concept.png)
+
+Selected interface design: a query-anchored memory map with PageRank relevance, AI activity and human researcher decisions. This AI-generated design concept uses illustrative records and scores; it is not a screenshot of the running prototype or an empirical result. Implementation is in progress.
+
 ## What is available 
 
 1. **If you don't have an AI model account or dataset:** two scripted cycles through the real controller, graph publication, retrieval and dashboard generation. This validates wiring; responses and statistics are fixtures.
