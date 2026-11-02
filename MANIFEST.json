@@ -58,8 +58,8 @@
     },
     {
       "path": "docs/release-status.md",
-      "sha256": "25a0d6e30e7880a6bc20329f1e2a7fe5dbaba8dc3543a9e2b82080efeb5c6b0f",
-      "bytes": 6051
+      "sha256": "6e546e25308b4d9b6461fa1fcd1b5f3e20febe3880943e680452f448af88e942",
+      "bytes": 6596
     },
     {
       "path": "docs/technical-appendix.md",
@@ -138,8 +138,8 @@
     },
     {
       "path": "src/research_memory/live_viewer.py",
-      "sha256": "d37ec28a952484aa9caf6fcfe32e53a2bb460615df2cee8778c8cd30dc97e38c",
-      "bytes": 44057
+      "sha256": "05d24f8f87ed32c530efa916c5006ef5dfcc92442f530ebd8312ab569b6ffa49",
+      "bytes": 44662
     },
     {
       "path": "src/research_memory/memory.py",

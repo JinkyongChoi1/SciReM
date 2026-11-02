@@ -1,5 +1,13 @@
 # Release status
 
+Follow-up visual QA: the selected concept and the actual Firefox screenshot were
+compared, and the canvas palette, query chip and review dock were refined. A
+Scheduler-hosted browser test verified the same published graph inventory,
+recorded anchors and PageRank, unconfirmed-delivery handling, evidence links and
+human-review receipts. The local live smoke used scripted agent responses and
+synthetic data with actual R execution. The concept image is illustrative;
+actual graph layout and visible records depend on the selected research run.
+
 Memory-canvas update (2026-11-02): the implemented dashboard follows the selected
 canvas-and-dock design in the README. It shows the complete selected store,
 source-recorded anchor/PPR/context overlays, source-linked Decision edges,
