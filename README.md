@@ -25,7 +25,7 @@ export PYTHONPATH="$PWD/src:$PWD/tools:$PWD/tests"
 python tools/smoke_scirem.py --output "$PWD/workspaces/smoke-01"
 ```
 
-Choose a new output directory on every smoke run. Open `workspaces/smoke-01/dashboard.html` in a browser; it is a static artifact, not a live agent animation. Inspect `memory.tsv`, `trace.json`, `report.json`, and the per-attempt source receipts. The trace distinguishes query anchors, ranking and final context inclusion. `report.json` must explicitly identify `scripted_fixture` and `fixed_test_receipts`.
+Choose a new output directory on every run. Open `workspaces/smoke-01/dashboard.html` in a browser; At current stage, it is a static artifact, not a live agent animation. Inspect `memory.tsv`, `trace.json`, `report.json`, and the per-attempt source receipts. The trace distinguishes query anchors, ranking and final context inclusion. `report.json` must explicitly identify `scripted_fixture` and `fixed_test_receipts`.
 
 This exercises `execute_four_role_attempt` twice with the actual shared-memory implementation. It does **not** execute an LLM or real R model and cannot reproduce the empirical preliminary-results table.
 
@@ -60,24 +60,3 @@ python tools/run_scirem.py \
   --trajectory-root "$SCIREM_OUTPUT/trajectories/run-01"
 ```
 
-`300` is an example five-minute allocation budget, not an attempt-count or universal research limit; match it to the scheduler allocation. The existing cleanup reserve falls inside that budget. The explicit cleanup opt-in permits termination of this attempt's own model child processes when needed. It does not permit cancellation of unrelated cluster jobs. Review actual token/compute usage; a time budget is not a token or subscription-credit limit.
-
-The wrapper defaults to the latest unified researcher / independent review-off layout. The controller still routes hypothesis, plan, Runner, assessment and decision stages and validates receipts. `SCIREM_ROLE_LAYOUT=split` selects separate role histories; `SCIREM_REVIEW=on` enables independent LLM review. These are experimental configurations, not ranked recommendations. Changing model/layout/review changes the experimental condition.
-
-The open-weight backend code is included, but runtime binaries and weights are not. Its setup and release-level inference are not validated here. The release does not promise identical results across provider versions. The legacy B path is not certified as native continued Codex sessions and must not be described that way.
-
-## Reading an outcome
-
-Check actual requested specification, executed code, result/diagnostic status, interpretation and next Decision. A successful primary fit can coexist with a failed additional diagnostic. A sourced claim can still be wrong. A high PPR score means relevant, not valid. Machine-derived statistical checks do not validate causal assumptions or theoretical novelty.
-
-## Distribution status
-
-Prepared for publication under `JinkyongChoi1`. The author has chosen to publish the prototype without granting a code reuse license at this stage; reuse permissions will be decided later. Do not describe this as an open-source licensed release. Third-party font terms remain in `src/research_memory/assets/OFL.txt` and apply to that asset separately. No institutional endorsement or independently verified rights clearance is implied. Empirical data/protocol documentation remains incomplete. See [release status](docs/release-status.md) for tested scope.
-
-Optional: verify the **actual R Runner** on generated synthetic data, still without any model call. Set `SCIREM_R_HOME` and `SCIREM_R_LIBRARY` for your installation, then run inside the allocation:
-
-```bash
-python tools/smoke_scirem.py --real-statistics --output "$PWD/workspaces/r-smoke-01"
-```
-
-This fits real R models on generated rows through the same controller; model reasoning and decisions remain scripted and are not performance evidence. It does not read the empirical pilot dataset.
