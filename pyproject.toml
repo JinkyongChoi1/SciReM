@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shared-research-memory"
+version = "0.1.0"
+description = "Shared evidence memory with query anchors, personalized PageRank, and offline research dashboards"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+semantic = ["fastembed"]
+experiment = ["jsonschema>=4.18"]
+
+[project.scripts]
+research-memory = "research_memory.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+research_memory = ["assets/*.ttf", "assets/*.txt", "assets/*.json"]

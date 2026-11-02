@@ -1,0 +1,15 @@
+# Release status
+
+Prepared 2026-11-01 from the current experimental code for https://github.com/JinkyongChoi1/SciReM. The author selected public posting without a code reuse license; reuse permissions remain undecided. Third-party font license remains included. This prototype is not a complete rights-cleared empirical replication package.
+
+Validation results will be recorded here after checking the exported tree. Packaging tests use isolated source and an environment with existing system Python dependencies; this is not proof that all dependencies install on every clean machine. The scripted smoke uses the real controller, memory graph and retrieval with fixture LLM/statistical outputs. No new model calls or real-data experiment are included in release QA.
+
+The public-tree scan checks tracked file contents for obvious secrets, institutional paths and excluded data/runtime artifacts. Such checks are bounded checks, not a guarantee against every disclosure. Scientific benchmark data access/citation, human judgment revision integration, native-B behavior, non-SGE deployment and live-browser access remain outside this release verification.
+
+Verified release QA: isolated source installation succeeded;367 discovered tests plus12 separate diagnostic-handoff tests passed (379 total). Both the fixture smoke and actual sandboxed-R/synthetic-data smoke completed two research cycles through the exported controller and shared graph. The real-R mode used existing site R packages; no model inference or empirical research data were used. A source-content scan of84 files found no matching private host paths, obvious key/token/webhook patterns or excluded runtime directories. Test-only fake redaction inputs were retained. No test was removed to obtain the pass.
+
+First packaging QA failed on omitted audit dependencies and a synthetic fixture. These were restored from the actual codebase, after which the exported suite passed. Package installation used a new virtual environment with system site packages and no dependency downloads; fully independent dependency installation, another institution's environment and browser/live-server access remain unverified.
+
+Judgment-edge update (2026-11-01): the expanded suite passed374 tests plus12 separate handoff tests (386 total), including7 new judgment-edge/auditor tests. The actual R/synthetic-data two-cycle smoke also passed. The first expanded QA exposed7 legacy-auditor failures; the auditor was extended with independent semantic recomputation and no tests were weakened. Production and release copies of the changed graph/TSV/auditor code match. This verifies implementation and source fidelity, not improved research performance or human-review effectiveness. Publication still awaits GitHub connection/account and license selection.
+
+Publication decision update: the public repository `JinkyongChoi1/SciReM` exists and write access is confirmed. The author explicitly authorized public posting without a code license, with reuse permissions to be decided later. Earlier statements that connection/account/license choice was pending describe the preceding preparation state.
